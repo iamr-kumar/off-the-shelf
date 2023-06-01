@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "349450474975",
+    "project_id": "off-the-shelf-d5433",
+    "storage_bucket": "off-the-shelf-d5433.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349450474975:android:732561aa836dfcd213206a",
+        "android_client_info": {
+          "package_name": "com.example.off_the_shelf"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX0ZQqO1SjVaR0hleEaIK_YfQayks1gyg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
