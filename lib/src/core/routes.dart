@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:off_the_shelf/src/features/auth/view/landing_screen.dart';
 import 'package:off_the_shelf/src/features/auth/view/login_screen.dart';
 import 'package:off_the_shelf/src/features/auth/view/singup_screen.dart';
+import 'package:off_the_shelf/src/features/onboarding/view/onboarding_start_screen.dart';
 
 import 'package:routemaster/routemaster.dart';
 
@@ -20,7 +21,8 @@ final authenticatedRoutes =
 
 final onboardingRoutes =
     RouteMap(onUnknownRoute: (_) => const Redirect('/'), routes: {
-  '/': (_) => const MaterialPage(child: Scaffold()),
+  OnboardingStartScreen.route: (_) =>
+      const MaterialPage(child: OnboardingStartScreen()),
   // '/onboarding/select-book': (_) =>
   //     const MaterialPage(child: OnboardingBookSelectScreen()),
   // '/onboarding/set-target': (_) =>
