@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:off_the_shelf/src/core/utils/snackbar.dart';
 import 'package:off_the_shelf/src/core/utils/type_defs.dart';
 import 'package:off_the_shelf/src/features/library/repository/library_repository.dart';
 
@@ -45,9 +46,11 @@ class BookSearchController extends StateNotifier<BookSelectionState> {
   void searchBooks(String query, BuildContext context) async {
     state = state.copyWith(isLoading: true);
     final books = await _libraryRepository.searchBooks(query);
-    books.fold(
-        (l) => {state = state.copyWith(isLoading: false, error: l.message)},
-        (books) {
+    books.fold((l) {
+      state = state.copyWith(isLoading: false, error: l.message);
+
+      showSnackBar(context, l.message);
+    }, (books) {
       books = books.where((e) => e.pageCount > 0).toList();
       state = state.copyWith(searchedBooks: books, isLoading: false);
     });

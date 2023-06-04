@@ -1,6 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:off_the_shelf/src/core/utils/minute_to_page.dart';
+import 'package:off_the_shelf/src/core/utils/snackbar.dart';
+import 'package:off_the_shelf/src/features/auth/controller/auth_controller.dart';
+import 'package:off_the_shelf/src/features/library/controller/book_search_controller.dart';
+import 'package:off_the_shelf/src/features/library/repository/library_repository.dart';
+import 'package:off_the_shelf/src/features/session/repository/session_repository.dart';
+import 'package:off_the_shelf/src/models/book.model.dart';
 
 class OnboardingState {
   final int? type;
@@ -61,41 +68,43 @@ class OnboardingController extends StateNotifier<OnboardingState> {
     state = state.copyWith(time: time);
   }
 
-  // void completeOnboarding(BuildContext context) async {
-  //   state.loading = true;
-  //   Book? book = _ref.read(bookSearchControllerProvider).selectedBook;
-  //   String uid = _ref.read(userProvider)!.uid;
-  //   int? type = state.type;
-  //   int? minutes = state.minutes;
-  //   int? pages = state.pages;
-  //   TimeOfDay? time = state.time;
-  //   if (book == null) {
-  //     return showSnackBar(context, 'Please select a book');
-  //   }
-  //   final newBook = await _ref.read(libraryRepositoryProvider).addBook(book);
+  void completeOnboarding(BuildContext context) async {
+    state.loading = true;
+    Book? book = _ref.read(bookSearchControllerProvider).selectedBook;
+    String uid = _ref.read(userProvider)!.uid;
+    int? type = state.type;
+    int? minutes = state.minutes;
+    int? pages = state.pages;
+    TimeOfDay? time = state.time;
+    if (book == null) {
+      return showSnackBar(context, 'Please select a book');
+    }
+    final newBook =
+        await _ref.read(libraryRepositoryProvider).addBookToLibrary(book);
 
-  //   if (minutes != null) {
-  //     pages = getPageFromMinutes(minutes);
-  //   }
-  //   if (pages != null) {
-  //     minutes = getMinutesFromPage(pages);
-  //   }
+    if (minutes != null) {
+      pages = getPageFromMinutes(minutes);
+    }
+    if (pages != null) {
+      minutes = getMinutesFromPage(pages);
+    }
 
-  //   newBook.fold((l) {
-  //     state.loading = false;
-  //     showSnackBar(context, l.message);
-  //   }, (r) async {
-  //     final res = await _ref
-  //         .read(readingGoalRepositoryProvider)
-  //         .updateReadingGoal(
-  //             uid: uid,
-  //             bookUid: book.id,
-  //             type: type,
-  //             minutes: minutes,
-  //             time: time,
-  //             pages: pages);
-  //     state.loading = false;
-  //     res.fold((l) => showSnackBar(context, l.message), (r) {});
-  //   });
-  // }
+    newBook.fold((l) {
+      state.loading = false;
+      showSnackBar(context, l.message);
+    }, (r) async {
+      final res = await _ref
+          .read(sessionRepositoryProvider)
+          .updateSessionDetails(
+              uid: uid,
+              bookUid: book.id,
+              type: type,
+              minutes: minutes,
+              time: time,
+              pages: pages,
+              markOnboardingComplete: true);
+      state.loading = false;
+      res.fold((l) => showSnackBar(context, l.message), (r) async {});
+    });
+  }
 }

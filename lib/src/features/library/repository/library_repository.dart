@@ -21,7 +21,7 @@ class LibraryRepository {
   final Ref _ref;
 
   final _startIndex = 0;
-  final _maxResults = 10;
+  final _maxResults = 15;
 
   LibraryRepository({required FirebaseFirestore firestore, required Ref ref})
       : _firestore = firestore,
@@ -33,14 +33,8 @@ class LibraryRepository {
       .collection(FirebaseConstants.libraryCollection);
 
   FutureEither<List<Book>> searchBooks(String query) async {
-    String apiKey;
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      apiKey = ApiKeys.apiKeyAndroid;
-    } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-      apiKey = ApiKeys.apiKeyIOS;
-    } else {
-      apiKey = ApiKeys.apiKey;
-    }
+    const String apiKey = ApiKeys.apiKey;
+
     final uri = Uri.parse('${ApiKeys.apiBaseUrl}${ApiKeys.apiPath}')
         .replace(queryParameters: {
       'q': query,
