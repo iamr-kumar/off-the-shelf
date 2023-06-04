@@ -27,7 +27,7 @@ class LibraryRepository {
       : _firestore = firestore,
         _ref = ref;
 
-  CollectionReference get _books => _firestore
+  CollectionReference get _library => _firestore
       .collection(FirebaseConstants.usersCollection)
       .doc(_ref.read(userProvider)!.uid)
       .collection(FirebaseConstants.libraryCollection);
@@ -60,11 +60,36 @@ class LibraryRepository {
 
   FutureVoid addBookToLibrary(Book book) async {
     try {
-      return right(_books.doc(book.id).set(book.toMap()));
+      return right(_library.doc(book.id).set(book.toMap()));
     } on FirebaseException catch (err) {
       throw err.message!;
     } catch (err) {
       return left(Failure(err.toString()));
     }
+  }
+
+  Stream<List<Book>> getBooksByStatus(BookStatus status) {
+    return _library
+        .where('status', isEqualTo: status.index)
+        .orderBy('updatedAt', descending: true)
+        .snapshots()
+        .map((event) {
+      return event.docs
+          .map((e) => Book.fromMap(e.data() as Map<String, dynamic>))
+          .toList();
+    });
+  }
+
+  Stream<List<Book>> getBooksReadFromDate(DateTime date) {
+    return _library
+        .where('completedAt',
+            isGreaterThanOrEqualTo: date.millisecondsSinceEpoch)
+        .orderBy("completedAt", descending: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => Book.fromMap(doc.data() as Map<String, dynamic>))
+          .toList();
+    });
   }
 }

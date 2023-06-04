@@ -20,37 +20,6 @@ class SessionRepository {
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
 
-  FutureVoid updateSessionDetails(
-      {required String uid,
-      String? bookUid,
-      TimeOfDay? time,
-      int? pages,
-      int? minutes,
-      int? type,
-      bool? markOnboardingComplete = false}) async {
-    final fieldsToUpdate = <String, dynamic>{};
-    if (bookUid != null) fieldsToUpdate['readingBook'] = bookUid;
-    if (pages != null) fieldsToUpdate['pages'] = pages;
-    if (minutes != null) fieldsToUpdate['minutes'] = minutes;
-    if (type != null) fieldsToUpdate['goalType'] = type;
-    if (time != null) {
-      fieldsToUpdate['notifyAt'] = toTimestamp(time);
-      fieldsToUpdate['notificationOn'] = true;
-    }
-
-    if (markOnboardingComplete != null) {
-      fieldsToUpdate['onboardingComplete'] = markOnboardingComplete;
-    }
-
-    try {
-      return right(_users.doc(uid).update(fieldsToUpdate));
-    } on FirebaseException catch (err) {
-      throw err.message!;
-    } catch (err) {
-      return left(Failure(err.toString()));
-    }
-  }
-
   FutureVoid createNewSession(
       {required String bookId,
       required DateTime start,

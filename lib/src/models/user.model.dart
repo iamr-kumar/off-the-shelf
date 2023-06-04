@@ -58,7 +58,7 @@ class UserModel {
       'name': name,
       'onboardingComplete': onboardingComplete,
       'photoUrl': photoUrl,
-      'noifyAt': notifyAt,
+      'notifyAt': notifyAt,
       'goalType': goalType,
       'pages': pages,
       'minutes': minutes,

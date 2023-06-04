@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:off_the_shelf/src/core/utils/minute_to_page.dart';
 import 'package:off_the_shelf/src/core/utils/snackbar.dart';
 import 'package:off_the_shelf/src/features/auth/controller/auth_controller.dart';
+import 'package:off_the_shelf/src/features/auth/repository/user_repository.dart';
 import 'package:off_the_shelf/src/features/library/controller/book_search_controller.dart';
 import 'package:off_the_shelf/src/features/library/repository/library_repository.dart';
-import 'package:off_the_shelf/src/features/session/repository/session_repository.dart';
 import 'package:off_the_shelf/src/models/book.model.dart';
 
 class OnboardingState {
@@ -93,16 +93,14 @@ class OnboardingController extends StateNotifier<OnboardingState> {
       state.loading = false;
       showSnackBar(context, l.message);
     }, (r) async {
-      final res = await _ref
-          .read(sessionRepositoryProvider)
-          .updateSessionDetails(
-              uid: uid,
-              bookUid: book.id,
-              type: type,
-              minutes: minutes,
-              time: time,
-              pages: pages,
-              markOnboardingComplete: true);
+      final res = await _ref.read(userRepositoryProvider).updateSessionDetails(
+          uid: uid,
+          bookUid: book.id,
+          type: type,
+          minutes: minutes,
+          time: time,
+          pages: pages,
+          markOnboardingComplete: true);
       state.loading = false;
       res.fold((l) => showSnackBar(context, l.message), (r) async {});
     });

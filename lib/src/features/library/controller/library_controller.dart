@@ -8,6 +8,13 @@ import 'package:off_the_shelf/src/models/book.model.dart';
 final libraryControllerProvider = Provider(
     (ref) => LibraryController(ref.read(libraryRepositoryProvider), ref));
 
+final booksByStatusProvider = StreamProvider.autoDispose
+    .family<List<Book>, BookStatus>((ref, status) =>
+        ref.watch(libraryControllerProvider).getBooksByStatus(status));
+
+final recentlyCompletedProvider = StreamProvider.autoDispose(
+    (ref) => ref.watch(libraryControllerProvider).getRecentlyCompletedBook());
+
 class LibraryController {
   final LibraryRepository _libraryRepository;
   final Ref _ref;
@@ -30,5 +37,15 @@ class LibraryController {
       const message = "Book added to library";
       showSnackBar(context, message);
     });
+  }
+
+  Stream<List<Book>> getBooksByStatus(BookStatus status) {
+    return _libraryRepository.getBooksByStatus(status);
+  }
+
+  Stream<List<Book>> getRecentlyCompletedBook() {
+    final today = DateTime.now();
+    final oneMonthAgo = today.subtract(const Duration(days: 30));
+    return _libraryRepository.getBooksReadFromDate(oneMonthAgo);
   }
 }
