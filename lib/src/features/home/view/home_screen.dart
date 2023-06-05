@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:off_the_shelf/src/features/home/view/home_tab.dart';
+import 'package:off_the_shelf/src/features/session/view/session_tab.dart';
 
 import 'package:off_the_shelf/src/theme/pallete.dart';
 
@@ -41,9 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final homeScreenItems = <Widget>[
-      HomeTab(switchTab: switchPage),
+      const HomeTab(),
       Container(color: Colors.green),
-      Container(color: Colors.blue),
+      const ReadingSessionTab(),
       Container(color: Colors.yellow),
       Container(color: Colors.pink),
     ];

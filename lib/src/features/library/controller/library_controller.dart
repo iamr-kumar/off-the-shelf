@@ -48,4 +48,29 @@ class LibraryController {
     final oneMonthAgo = today.subtract(const Duration(days: 30));
     return _libraryRepository.getBooksReadFromDate(oneMonthAgo);
   }
+
+  void updateBookProgress(
+      BuildContext context, String bookId, int pages) async {
+    final bookRes = await _libraryRepository.getBook(bookId);
+    late Book book;
+    bookRes.fold((l) => null, (r) => {book = r});
+
+    if (book.progress + pages >= book.pageCount) {
+      book = book.copyWith(
+          progress: book.pageCount,
+          status: BookStatus.finished,
+          updatedAt: DateTime.now(),
+          completedAt: DateTime.now());
+    } else {
+      book = book.copyWith(
+          progress: book.progress + pages, updatedAt: DateTime.now());
+    }
+    final updatedBook =
+        await _ref.read(libraryRepositoryProvider).updateBook(book);
+
+    updatedBook.fold((l) => showSnackBar(context, l.message), (r) {
+      const message = 'Updated your daily progress';
+      showSnackBar(context, message);
+    });
+  }
 }

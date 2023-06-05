@@ -8,8 +8,7 @@ import 'package:off_the_shelf/src/theme/app_style.dart';
 import 'package:off_the_shelf/src/theme/pallete.dart';
 
 class HomeTab extends ConsumerWidget {
-  final ValueSetter<int> switchTab;
-  const HomeTab({super.key, required this.switchTab});
+  const HomeTab({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -58,6 +58,17 @@ class LibraryRepository {
     }
   }
 
+  FutureEither<Book> getBook(String id) async {
+    try {
+      final book = await _library.doc(id).get();
+      return right(Book.fromMap(book.data() as Map<String, dynamic>));
+    } on FirebaseException catch (err) {
+      throw err.message!;
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
+  }
+
   FutureVoid addBookToLibrary(Book book) async {
     try {
       return right(_library.doc(book.id).set(book.toMap()));
@@ -91,5 +102,15 @@ class LibraryRepository {
           .map((doc) => Book.fromMap(doc.data() as Map<String, dynamic>))
           .toList();
     });
+  }
+
+  FutureVoid updateBook(Book book) async {
+    try {
+      return right(_library.doc(book.id).update(book.toMap()));
+    } on FirebaseException catch (err) {
+      throw err.message!;
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
   }
 }
