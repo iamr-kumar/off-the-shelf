@@ -15,6 +15,9 @@ final booksByStatusProvider = StreamProvider.autoDispose
 final recentlyCompletedProvider = StreamProvider.autoDispose(
     (ref) => ref.watch(libraryControllerProvider).getRecentlyCompletedBook());
 
+final allBooksProvider = StreamProvider.autoDispose(
+    (ref) => ref.watch(libraryControllerProvider).getAllBooks());
+
 class LibraryController {
   final LibraryRepository _libraryRepository;
   final Ref _ref;
@@ -37,6 +40,10 @@ class LibraryController {
       const message = "Book added to library";
       showSnackBar(context, message);
     });
+  }
+
+  Stream<List<Book>> getAllBooks() {
+    return _libraryRepository.getAllBooks();
   }
 
   Stream<List<Book>> getBooksByStatus(BookStatus status) {

@@ -29,3 +29,8 @@ String getGreetingMessage() {
     return 'Good Evening';
   }
 }
+
+String formatDate(DateTime dateTime) {
+  final DateFormat formatter = DateFormat('dd MMMM yy');
+  return formatter.format(dateTime);
+}

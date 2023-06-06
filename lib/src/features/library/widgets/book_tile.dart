@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:off_the_shelf/src/core/utils/handle_time.dart';
 import 'package:off_the_shelf/src/features/library/widgets/percent_progress_indicator.dart';
 import 'package:off_the_shelf/src/models/book.model.dart';
 import 'package:off_the_shelf/src/theme/app_style.dart';
@@ -8,12 +9,14 @@ import 'package:off_the_shelf/src/theme/pallete.dart';
 class BookTile extends StatelessWidget {
   final Book book;
   final double height;
+  final bool showLastRead;
 
-  const BookTile({
-    Key? key,
-    required this.book,
-    required this.height,
-  }) : super(key: key);
+  const BookTile(
+      {Key? key,
+      required this.book,
+      required this.height,
+      this.showLastRead = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +49,9 @@ class BookTile extends StatelessWidget {
                             ? '${book.title.substring(0, 50)}...'
                             : book.title,
                         style: AppStyles.headingFive),
-                    Text('by ${book.authors.join(',')}',
-                        style: AppStyles.subtext),
+                    Text(book.authors.join(','), style: AppStyles.subtext),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     PercentProgressIndicator(
                       percent: book.progress / book.pageCount,
@@ -58,7 +60,16 @@ class BookTile extends StatelessWidget {
                       height: 5,
                     ),
                     Text('${book.progress} of ${book.pageCount} pages read',
-                        style: AppStyles.bodyText.copyWith(fontSize: 14))
+                        style: AppStyles.bodyText.copyWith(fontSize: 14)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      showLastRead
+                          ? 'Last read ${formatDate(book.updatedAt!)}'
+                          : 'Added on ${formatDate(book.createdAt!)}',
+                      style: AppStyles.subtext.copyWith(fontSize: 14),
+                    )
                   ],
                 ),
               ),

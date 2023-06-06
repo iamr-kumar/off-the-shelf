@@ -58,6 +58,14 @@ class LibraryRepository {
     }
   }
 
+  Stream<List<Book>> getAllBooks() {
+    return _library.snapshots().map((snapshot) {
+      return snapshot.docs
+          .map((doc) => Book.fromMap(doc.data() as Map<String, dynamic>))
+          .toList();
+    });
+  }
+
   FutureEither<Book> getBook(String id) async {
     try {
       final book = await _library.doc(id).get();

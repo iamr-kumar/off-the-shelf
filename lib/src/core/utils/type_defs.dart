@@ -22,6 +22,21 @@ String describeStatusEnum(BookStatus value) {
   }
 }
 
+BookStatus getStatusFromRouteParam(String value) {
+  switch (value) {
+    case 'toRead':
+      return BookStatus.toRead;
+    case 'reading':
+      return BookStatus.reading;
+    case 'finished':
+      return BookStatus.finished;
+    case 'abandoned':
+      return BookStatus.abandoned;
+    default:
+      return BookStatus.toRead;
+  }
+}
+
 String describeGoalTypeEnum(GoalType value) {
   switch (value) {
     case GoalType.pages:
