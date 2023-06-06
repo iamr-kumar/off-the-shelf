@@ -9,6 +9,8 @@ enum GoalType { pages, minutes }
 
 enum BookStatus { toRead, reading, finished, abandoned }
 
+enum ThemeMode { light, dark }
+
 String describeStatusEnum(BookStatus value) {
   switch (value) {
     case BookStatus.toRead:

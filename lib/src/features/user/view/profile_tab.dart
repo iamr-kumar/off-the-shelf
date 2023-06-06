@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
+import 'package:off_the_shelf/src/features/user/view/settings_modal.dart';
 import 'package:off_the_shelf/src/features/user/widgets/profile_list_tile.dart';
 import 'package:off_the_shelf/src/theme/pallete.dart';
 
@@ -12,9 +13,25 @@ class ProfileTab extends ConsumerWidget {
     ref.read(authControllerProvider.notifier).logout();
   }
 
+  void showSettingsModal(BuildContext context, double devHeight) {
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+        isScrollControlled: true,
+        builder: (ctx) {
+          return SizedBox(
+            height: devHeight * 0.7,
+            child: const SettingsModal(),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider)!;
+    final devHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
         body: SafeArea(
@@ -53,7 +70,9 @@ class ProfileTab extends ConsumerWidget {
               title: 'My Account', leading: FeatherIcons.user, onTap: () {}),
           const SizedBox(height: 16),
           ProfileListTile(
-              title: 'Settings', leading: FeatherIcons.settings, onTap: () {}),
+              title: 'Settings',
+              leading: FeatherIcons.settings,
+              onTap: () => showSettingsModal(context, devHeight)),
           const SizedBox(height: 16),
           ProfileListTile(
               title: 'Log Out',
