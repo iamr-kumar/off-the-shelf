@@ -142,12 +142,15 @@ class BookTile extends ConsumerWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      showLastRead
-                          ? 'Last read ${formatDate(book.updatedAt!)}'
-                          : 'Added on ${formatDate(book.createdAt!)}',
-                      style: AppStyles.subtext.copyWith(fontSize: 14),
-                    )
+                    (showLastRead && book.updatedAt != null) ||
+                            (!showLastRead && book.createdAt != null)
+                        ? Text(
+                            showLastRead
+                                ? 'Last read ${formatDate(book.updatedAt!)}'
+                                : 'Added on ${formatDate(book.createdAt!)}',
+                            style: AppStyles.subtext.copyWith(fontSize: 14),
+                          )
+                        : const SizedBox()
                   ],
                 ),
               ),

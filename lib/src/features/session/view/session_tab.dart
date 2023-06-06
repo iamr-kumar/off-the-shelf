@@ -27,6 +27,7 @@ class _ReadingSessionTabState extends ConsumerState<ReadingSessionTab> {
   int? _minutes;
   final TextEditingController _targetController = TextEditingController();
   late Book bookToRead;
+  bool isDisabled = false;
 
   int type = 1;
 
@@ -108,6 +109,7 @@ class _ReadingSessionTabState extends ConsumerState<ReadingSessionTab> {
                 ReadingTimer(
                   goalTime: readingTimeInSeconds,
                   onSessionComplete: showSummary,
+                  isDisabled: isDisabled,
                 ),
                 const SizedBox(height: 40),
                 const Text(
@@ -116,11 +118,19 @@ class _ReadingSessionTabState extends ConsumerState<ReadingSessionTab> {
                 ),
                 ref.watch(booksByStatusProvider(BookStatus.reading)).when(
                     data: (currentlyReading) {
-                      updateBook(currentlyReading.first);
-                      return BookSelector(
-                        currentlyReading: currentlyReading,
-                        onBookChange: updateBook,
-                      );
+                      if (currentlyReading.isEmpty) {
+                        setState(() {
+                          isDisabled = true;
+                        });
+                        return const Text('Pick a book to start reading',
+                            style: AppStyles.highlightedSubtext);
+                      } else {
+                        updateBook(currentlyReading.first);
+                        return BookSelector(
+                          currentlyReading: currentlyReading,
+                          onBookChange: updateBook,
+                        );
+                      }
                     },
                     error: (error, stackTrace) =>
                         ErrorText(error: error.toString()),

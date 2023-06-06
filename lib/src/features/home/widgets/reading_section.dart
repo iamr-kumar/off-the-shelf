@@ -15,7 +15,7 @@ class ReadingSection extends ConsumerWidget {
     final devHeight = MediaQuery.of(context).size.height;
 
     return SizedBox(
-        height: devHeight * 0.23,
+        height: devHeight * 0.3,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

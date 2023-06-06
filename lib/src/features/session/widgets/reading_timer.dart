@@ -9,10 +9,12 @@ import 'package:off_the_shelf/src/theme/pallete.dart';
 
 class ReadingTimer extends ConsumerStatefulWidget {
   final int goalTime;
+  final bool isDisabled;
   final Function(int, int, DateTime, DateTime) onSessionComplete;
   const ReadingTimer({
     super.key,
     required this.goalTime,
+    required this.isDisabled,
     required this.onSessionComplete,
   });
 
@@ -72,6 +74,7 @@ class _ReadingTimerState extends ConsumerState<ReadingTimer> {
           width: 120,
           child: CustomButton(
               text: isRunning ? 'Pause' : 'Start',
+              isDisabled: widget.isDisabled,
               isCompact: true,
               onPressed: () {
                 if (isRunning) {
