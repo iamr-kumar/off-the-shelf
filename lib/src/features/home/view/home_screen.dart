@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:off_the_shelf/src/features/home/view/home_tab.dart';
 import 'package:off_the_shelf/src/features/session/view/session_tab.dart';
+import 'package:off_the_shelf/src/features/user/view/profile_tab.dart';
 
 import 'package:off_the_shelf/src/theme/pallete.dart';
 
@@ -46,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Container(color: Colors.green),
       const ReadingSessionTab(),
       Container(color: Colors.yellow),
-      Container(color: Colors.pink),
+      const ProfileTab()
     ];
 
     return Scaffold(

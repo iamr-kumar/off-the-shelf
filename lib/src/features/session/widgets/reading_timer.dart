@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:off_the_shelf/src/core/utils/minute_to_page.dart';
 import 'package:off_the_shelf/src/core/utils/snackbar.dart';
 import 'package:off_the_shelf/src/core/widgets/custom_button.dart';
 import 'package:off_the_shelf/src/theme/app_style.dart';
@@ -50,12 +49,11 @@ class _ReadingTimerState extends ConsumerState<ReadingTimer> {
   }
 
   void completeSession() async {
-    // if (minutes <= 0) {
-    //   showSnackBar(context, 'Read for a minute atleast');
-    //   return;
-    // }
+    if (minutes <= 0) {
+      showSnackBar(context, 'Read for a minute atleast');
+      return;
+    }
     timer?.cancel();
-    final pages = getPageFromMinutes(minutes);
 
     widget.onSessionComplete(minutes, seconds, startTime, DateTime.now());
 

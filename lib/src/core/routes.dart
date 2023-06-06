@@ -1,8 +1,8 @@
 // Guest Routes
 import 'package:flutter/material.dart';
-import 'package:off_the_shelf/src/features/auth/view/landing_screen.dart';
-import 'package:off_the_shelf/src/features/auth/view/login_screen.dart';
-import 'package:off_the_shelf/src/features/auth/view/singup_screen.dart';
+import 'package:off_the_shelf/src/features/user/view/landing_screen.dart';
+import 'package:off_the_shelf/src/features/user/view/login_screen.dart';
+import 'package:off_the_shelf/src/features/user/view/singup_screen.dart';
 import 'package:off_the_shelf/src/features/home/view/home_screen.dart';
 import 'package:off_the_shelf/src/features/onboarding/view/book_select_screen.dart';
 import 'package:off_the_shelf/src/features/onboarding/view/finish_screen.dart';

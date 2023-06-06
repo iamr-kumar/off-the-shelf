@@ -32,7 +32,7 @@ class Pallete {
   // );
 
   static var lightModeAppTheme = ThemeData.light().copyWith(
-    scaffoldBackgroundColor: greyOne,
+    scaffoldBackgroundColor: white,
     cardColor: white,
     appBarTheme: const AppBarTheme(
       backgroundColor: white,

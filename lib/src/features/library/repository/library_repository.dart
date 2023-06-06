@@ -9,7 +9,7 @@ import 'package:off_the_shelf/src/core/config/api_keys.dart';
 import 'package:off_the_shelf/src/core/constants/firebase_constants.dart';
 import 'package:off_the_shelf/src/core/utils/failure.dart';
 import 'package:off_the_shelf/src/core/utils/type_defs.dart';
-import 'package:off_the_shelf/src/features/auth/controller/auth_controller.dart';
+import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
 import 'package:off_the_shelf/src/models/book.model.dart';
 import 'package:off_the_shelf/src/providers/firebase_providers.dart';
 

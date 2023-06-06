@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:off_the_shelf/src/core/utils/progress_message.dart';
 import 'package:off_the_shelf/src/core/utils/type_defs.dart';
 import 'package:off_the_shelf/src/core/widgets/loader.dart';
-import 'package:off_the_shelf/src/features/auth/controller/auth_controller.dart';
+import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
 import 'package:off_the_shelf/src/features/session/controller/session_controller.dart';
 import 'package:off_the_shelf/src/theme/app_style.dart';
 import 'package:off_the_shelf/src/theme/pallete.dart';
@@ -66,7 +66,7 @@ class ProgressCard extends ConsumerWidget {
                         ),
                         Center(
                             child: Text(
-                                '${percentComplete == 0.0 ? 0 : percentComplete}%',
+                                '${percentComplete.toStringAsFixed(1)}%',
                                 style: AppStyles.bodyText
                                     .copyWith(color: Pallete.white))),
                       ])),

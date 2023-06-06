@@ -6,7 +6,7 @@ import 'package:off_the_shelf/src/core/utils/show_goal_dialog.dart';
 import 'package:off_the_shelf/src/core/utils/type_defs.dart';
 import 'package:off_the_shelf/src/core/widgets/error_text.dart';
 import 'package:off_the_shelf/src/core/widgets/loader.dart';
-import 'package:off_the_shelf/src/features/auth/controller/auth_controller.dart';
+import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
 import 'package:off_the_shelf/src/features/library/controller/library_controller.dart';
 import 'package:off_the_shelf/src/features/session/view/session_summary.dart';
 import 'package:off_the_shelf/src/features/session/widgets/book_selector.dart';

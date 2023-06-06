@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:off_the_shelf/src/core/utils/snackbar.dart';
-import 'package:off_the_shelf/src/features/auth/controller/auth_controller.dart';
+import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
 import 'package:off_the_shelf/src/features/library/controller/library_controller.dart';
 import 'package:off_the_shelf/src/features/session/repository/session_repository.dart';
 import 'package:off_the_shelf/src/models/session.model.dart';

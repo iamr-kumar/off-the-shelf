@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:off_the_shelf/src/features/auth/controller/auth_controller.dart';
+import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
 import 'package:off_the_shelf/src/theme/pallete.dart';
 
 class GoogleSigninButton extends ConsumerWidget {

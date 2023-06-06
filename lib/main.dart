@@ -6,7 +6,7 @@ import 'package:off_the_shelf/src/core/constants/local_constants.dart';
 import 'package:off_the_shelf/src/core/routes.dart';
 import 'package:off_the_shelf/src/core/widgets/error_text.dart';
 import 'package:off_the_shelf/src/core/widgets/loader.dart';
-import 'package:off_the_shelf/src/features/auth/controller/auth_controller.dart';
+import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
 import 'package:off_the_shelf/src/models/user.model.dart';
 import 'package:off_the_shelf/src/theme/pallete.dart';
 import 'package:routemaster/routemaster.dart';
