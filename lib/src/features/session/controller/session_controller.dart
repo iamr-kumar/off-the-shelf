@@ -4,10 +4,14 @@ import 'package:off_the_shelf/src/core/utils/snackbar.dart';
 import 'package:off_the_shelf/src/features/auth/controller/auth_controller.dart';
 import 'package:off_the_shelf/src/features/library/controller/library_controller.dart';
 import 'package:off_the_shelf/src/features/session/repository/session_repository.dart';
+import 'package:off_the_shelf/src/models/session.model.dart';
 
 final sessionControllerProvider =
     StateNotifierProvider<SessionController, bool>(
         (ref) => SessionController(ref.read(sessionRepositoryProvider), ref));
+final todaysProgressProvider = StreamProvider.autoDispose<List<Session>>((ref) {
+  return ref.read(sessionControllerProvider.notifier).getTodaysSessions();
+});
 
 class SessionController extends StateNotifier<bool> {
   final Ref _ref;
@@ -40,5 +44,10 @@ class SessionController extends StateNotifier<bool> {
           .updateBookProgress(context, bookId, pages);
       showSnackBar(context, 'Session logged successfully');
     });
+  }
+
+  Stream<List<Session>> getTodaysSessions() {
+    final userId = _ref.read(userProvider)!.uid;
+    return _sessionRepository.getTodaysSessions(userId);
   }
 }

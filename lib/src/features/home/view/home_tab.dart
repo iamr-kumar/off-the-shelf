@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:off_the_shelf/src/core/utils/handle_time.dart';
 import 'package:off_the_shelf/src/features/auth/controller/auth_controller.dart';
+import 'package:off_the_shelf/src/features/home/widgets/progress_card.dart';
 import 'package:off_the_shelf/src/features/home/widgets/reading_section.dart';
 import 'package:off_the_shelf/src/features/home/widgets/recently_completed.dart';
 import 'package:off_the_shelf/src/theme/app_style.dart';
@@ -51,7 +52,7 @@ class HomeTab extends ConsumerWidget {
                       ],
                     ),
                     SizedBox(height: deviceHeight * 0.035),
-                    // const ProgressCard(),
+                    const ProgressCard(),
                     SizedBox(height: deviceHeight * 0.03),
                     const ReadingSection(),
                     SizedBox(
