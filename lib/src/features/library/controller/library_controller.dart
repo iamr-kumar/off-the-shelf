@@ -80,4 +80,21 @@ class LibraryController {
       showSnackBar(context, message);
     });
   }
+
+  void updateBookStatus(
+      BuildContext context, String bookId, BookStatus status) async {
+    final bookRes = await _libraryRepository.getBook(bookId);
+    late Book book;
+    bookRes.fold((l) => null, (r) => {book = r});
+
+    book = book.copyWith(status: status, updatedAt: DateTime.now());
+
+    final updatedBook =
+        await _ref.read(libraryRepositoryProvider).updateBook(book);
+
+    updatedBook.fold((l) => showSnackBar(context, l.message), (r) {
+      final message = 'Move book to ${describeStatusEnum(status)}';
+      showSnackBar(context, message);
+    });
+  }
 }
