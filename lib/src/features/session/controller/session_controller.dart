@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:off_the_shelf/src/core/utils/snackbar.dart';
+import 'package:off_the_shelf/src/features/streak/controller/streak_controller.dart';
 import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
 import 'package:off_the_shelf/src/features/library/controller/library_controller.dart';
 import 'package:off_the_shelf/src/features/session/repository/session_repository.dart';
+import 'package:off_the_shelf/src/features/user/controller/user_controller.dart';
+import 'package:off_the_shelf/src/features/user/repository/user_repository.dart';
 import 'package:off_the_shelf/src/models/session.model.dart';
 
 final sessionControllerProvider =
@@ -27,21 +30,24 @@ class SessionController extends StateNotifier<bool> {
       required DateTime endTime,
       required BuildContext context}) async {
     state = true;
-    final userId = _ref.read(userProvider)!.uid;
+    final user = _ref.read(userProvider)!;
     final readingLog = await _sessionRepository.createNewSession(
-      userId: userId,
+      userId: user.uid,
       bookId: bookId,
       pages: pages,
       minutes: minutes,
       start: startTime,
       end: endTime,
     );
+
     state = false;
 
     readingLog.fold((l) => showSnackBar(context, l.message), (r) {
       _ref
           .read(libraryControllerProvider)
           .updateBookProgress(context, bookId, pages);
+
+      _ref.read(streakStateProvider.notifier).updateStreak();
       showSnackBar(context, 'Session logged successfully');
     });
   }

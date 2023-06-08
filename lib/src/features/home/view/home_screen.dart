@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:off_the_shelf/src/features/home/view/home_tab.dart';
 import 'package:off_the_shelf/src/features/library/view/library_tab.dart';
 import 'package:off_the_shelf/src/features/session/view/session_tab.dart';
+import 'package:off_the_shelf/src/features/streak/controller/streak_controller.dart';
 import 'package:off_the_shelf/src/features/streak/view/streak_tab.dart';
 import 'package:off_the_shelf/src/features/user/view/profile_tab.dart';
 
 import 'package:off_the_shelf/src/theme/pallete.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   static const route = "/";
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   late PageController _pageController;
   int _page = 0;
 
@@ -24,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _pageController = PageController();
+    ref.read(streakStateProvider.notifier).checkAndResetCurrentStreak();
   }
 
   @override

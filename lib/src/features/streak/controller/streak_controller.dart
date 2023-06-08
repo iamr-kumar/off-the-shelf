@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:off_the_shelf/src/features/session/repository/session_repository.dart';
 import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
 import 'package:off_the_shelf/src/features/user/controller/user_controller.dart';
+import 'package:off_the_shelf/src/features/user/repository/user_repository.dart';
 import 'package:off_the_shelf/src/models/session.model.dart';
 
 final streakStateProvider =
@@ -68,7 +69,7 @@ class StreakController extends StateNotifier<StreakState> {
     final now = DateTime.now();
     final monthStartDay = DateTime(now.year, now.month, 1);
     getSessionsByMonth(monthStartDay);
-    checkSessionExistsForTwoDaysAgo();
+    checkAndResetCurrentStreak();
   }
 
   void getSessionsByMonth(DateTime monthStartDay) async {
@@ -92,22 +93,46 @@ class StreakController extends StateNotifier<StreakState> {
     });
   }
 
-  void checkSessionExistsForTwoDaysAgo() async {
+  void checkAndResetCurrentStreak() async {
     final today = DateTime.now();
-    final twoDaysAgo = today.subtract(const Duration(days: 2));
-    final twoDaysAgoStartTime = DateTime(
-        twoDaysAgo.year, twoDaysAgo.month, twoDaysAgo.day, 0, 0, 0, 0, 0);
-    final twoDaysAgoEndTime = DateTime(
-        twoDaysAgo.year, twoDaysAgo.month, twoDaysAgo.day, 23, 59, 59, 0, 0);
+    final yesterday = today.subtract(const Duration(days: 1));
+    final yesterdayStart =
+        DateTime(yesterday.year, yesterday.month, yesterday.day, 0, 0, 0, 0, 0);
+    final todayEnd =
+        DateTime(today.year, today.month, today.day, 23, 59, 59, 0, 0);
 
     final sessionRes = await _sessionRepository.getSessionsInDateRange(
-        _ref.read(userProvider)!.uid, twoDaysAgoStartTime, twoDaysAgoEndTime);
+        _ref.read(userProvider)!.uid, yesterdayStart, todayEnd);
 
     sessionRes.fold((l) {
       state = state.copyWith(error: l.toString());
     }, (sessions) {
       if (sessions.isEmpty) {
         _ref.read(userControllerProvider).resetStreak();
+      }
+    });
+  }
+
+  void updateStreak() async {
+    final today = DateTime.now();
+    final todayStart =
+        DateTime(today.year, today.month, today.day, 0, 0, 0, 0, 0);
+    final todayEnd =
+        DateTime(today.year, today.month, today.day, 23, 59, 59, 0, 0);
+
+    final user = _ref.read(userProvider)!;
+
+    final sessionRes = await _sessionRepository.getSessionsInDateRange(
+        _ref.read(userProvider)!.uid, todayStart, todayEnd);
+
+    sessionRes.fold((l) {
+      state = state.copyWith(error: l.toString());
+    }, (sessions) {
+      if (sessions.isEmpty) {
+        _ref.read(userRepositoryProvider).increaseStreak(
+            uid: user.uid,
+            currentStreak: user.currentStreak! + 1,
+            longestStreak: user.longestStreak!);
       }
     });
   }
