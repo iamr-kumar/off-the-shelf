@@ -10,11 +10,32 @@ import 'package:off_the_shelf/src/theme/app_style.dart';
 import 'package:off_the_shelf/src/theme/pallete.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalendarView extends ConsumerWidget {
+class CalendarView extends ConsumerStatefulWidget {
   const CalendarView({super.key});
 
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _CalendarViewState();
+}
+
+class _CalendarViewState extends ConsumerState<CalendarView> {
+  late DateTime _focusedDay;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusedDay = DateTime.now();
+  }
+
+  void updateCalenderView(DateTime date) {
+    final monthStartDate = DateTime(date.year, date.month, 1);
+    ref.read(streakStateProvider.notifier).getSessionsByMonth(monthStartDate);
+    setState(() {
+      _focusedDay = date;
+    });
+  }
+
   Widget calendarBuilder(BuildContext context, DateTime date,
-      Map<String, DayReadStatus> sessionsMap, WidgetRef ref) {
+      Map<String, DayReadStatus> sessionsMap) {
     final user = ref.read(userProvider)!;
     final goalType = user.goalType;
     final text = DateFormat('d').format(date);
@@ -49,7 +70,7 @@ class CalendarView extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final streakState = ref.watch(streakStateProvider);
     final loading = streakState.loading;
     final error = streakState.error;
@@ -65,19 +86,22 @@ class CalendarView extends ConsumerWidget {
 
     return TableCalendar(
         locale: "en_US",
+        startingDayOfWeek: StartingDayOfWeek.monday,
+        availableCalendarFormats: const {CalendarFormat.month: 'Month'},
+        onPageChanged: updateCalenderView,
         headerStyle: const HeaderStyle(
             formatButtonVisible: false,
             titleCentered: true,
             titleTextStyle: AppStyles.highlightedSubtext),
-        focusedDay: DateTime.now(),
+        focusedDay: _focusedDay,
         firstDay: DateTime.utc(2010, 10, 16),
         lastDay: DateTime.utc(2030, 3, 14),
         rowHeight: 60,
         calendarBuilders: CalendarBuilders(
             defaultBuilder: (context, date, _) =>
-                calendarBuilder(context, date, sessionsMap, ref),
+                calendarBuilder(context, date, sessionsMap),
             todayBuilder: (context, date, _) =>
-                calendarBuilder(context, date, sessionsMap, ref),
+                calendarBuilder(context, date, sessionsMap),
             outsideBuilder: (context, date, _) {
               final text = DateFormat('d').format(date);
               return SizedBox(

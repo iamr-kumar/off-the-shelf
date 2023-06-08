@@ -44,7 +44,7 @@ class SessionRepository {
     }
   }
 
-  Stream<List<Session>> getLogs(String userId) {
+  Stream<List<Session>> getSessions(String userId) {
     CollectionReference logs =
         _users.doc(userId).collection(FirebaseConstants.sessionsCollection);
     return logs.snapshots().map((event) {

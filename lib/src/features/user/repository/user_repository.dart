@@ -63,4 +63,35 @@ class UserRepository {
       return left(Failure(err.toString()));
     }
   }
+
+  FutureVoid resetStreak({required String uid}) async {
+    try {
+      return right(_users.doc(uid).update({
+        'currentStreak': 0,
+      }));
+    } on FirebaseException catch (err) {
+      throw err.message!;
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
+  }
+
+  FutureVoid increaseStreak(
+      {required String uid,
+      required int currentStreak,
+      required int longestStreak}) async {
+    final streaksToUpdate = <String, dynamic>{};
+    streaksToUpdate['currentStreak'] = currentStreak;
+    if (currentStreak > longestStreak) {
+      streaksToUpdate['longestStreak'] = currentStreak;
+    }
+
+    try {
+      return right(_users.doc(uid).update(streaksToUpdate));
+    } on FirebaseException catch (err) {
+      throw err.message!;
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
+  }
 }

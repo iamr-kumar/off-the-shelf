@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:off_the_shelf/src/features/session/repository/session_repository.dart';
 import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
+import 'package:off_the_shelf/src/features/user/controller/user_controller.dart';
 import 'package:off_the_shelf/src/models/session.model.dart';
 
 final streakStateProvider =
@@ -67,6 +68,7 @@ class StreakController extends StateNotifier<StreakState> {
     final now = DateTime.now();
     final monthStartDay = DateTime(now.year, now.month, 1);
     getSessionsByMonth(monthStartDay);
+    checkSessionExistsForTwoDaysAgo();
   }
 
   void getSessionsByMonth(DateTime monthStartDay) async {
@@ -87,6 +89,26 @@ class StreakController extends StateNotifier<StreakState> {
     }, (sessions) {
       final sessionsMap = createSessionsMap(sessions);
       state = state.copyWith(sessionsMap: sessionsMap);
+    });
+  }
+
+  void checkSessionExistsForTwoDaysAgo() async {
+    final today = DateTime.now();
+    final twoDaysAgo = today.subtract(const Duration(days: 2));
+    final twoDaysAgoStartTime = DateTime(
+        twoDaysAgo.year, twoDaysAgo.month, twoDaysAgo.day, 0, 0, 0, 0, 0);
+    final twoDaysAgoEndTime = DateTime(
+        twoDaysAgo.year, twoDaysAgo.month, twoDaysAgo.day, 23, 59, 59, 0, 0);
+
+    final sessionRes = await _sessionRepository.getSessionsInDateRange(
+        _ref.read(userProvider)!.uid, twoDaysAgoStartTime, twoDaysAgoEndTime);
+
+    sessionRes.fold((l) {
+      state = state.copyWith(error: l.toString());
+    }, (sessions) {
+      if (sessions.isEmpty) {
+        _ref.read(userControllerProvider).resetStreak();
+      }
     });
   }
 

@@ -40,4 +40,9 @@ class UserController {
         (l) => showSnackBar(context, 'Some error occurred, please try again!'),
         (r) => showSnackBar(context, 'Reminder updated!'));
   }
+
+  void resetStreak() {
+    final user = _ref.read(userProvider)!;
+    _userRepository.resetStreak(uid: user.uid);
+  }
 }
