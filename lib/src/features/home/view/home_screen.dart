@@ -3,6 +3,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:off_the_shelf/src/features/home/view/home_tab.dart';
 import 'package:off_the_shelf/src/features/library/view/library_tab.dart';
 import 'package:off_the_shelf/src/features/session/view/session_tab.dart';
+import 'package:off_the_shelf/src/features/streak/view/streak_tab.dart';
 import 'package:off_the_shelf/src/features/user/view/profile_tab.dart';
 
 import 'package:off_the_shelf/src/theme/pallete.dart';
@@ -45,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final homeScreenItems = <Widget>[
       const HomeTab(),
-      Container(color: Colors.green),
+      const StreakTab(),
       const ReadingSessionTab(),
       const LibraryTab(),
       const ProfileTab()

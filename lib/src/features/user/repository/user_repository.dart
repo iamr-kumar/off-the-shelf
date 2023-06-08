@@ -28,6 +28,8 @@ class UserRepository {
     int? minutes,
     int? type,
     bool? notificationOn,
+    int? currentStreak,
+    int? longestStreak,
     bool? markOnboardingComplete = true,
   }) async {
     final fieldsToUpdate = <String, dynamic>{};
@@ -44,6 +46,13 @@ class UserRepository {
     }
     if (notificationOn != null) {
       fieldsToUpdate['notificationOn'] = notificationOn;
+    }
+
+    if (currentStreak != null) {
+      fieldsToUpdate['currentStreak'] = currentStreak;
+    }
+    if (longestStreak != null) {
+      fieldsToUpdate['longestStreak'] = longestStreak;
     }
 
     try {

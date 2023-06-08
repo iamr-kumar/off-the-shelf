@@ -54,6 +54,27 @@ class SessionRepository {
     });
   }
 
+  FutureEither<List<Session>> getSessionsInDateRange(
+      DateTime from, DateTime to) async {
+    CollectionReference sessions =
+        _users.doc('userId').collection(FirebaseConstants.sessionsCollection);
+    try {
+      QuerySnapshot snapshot = await sessions
+          .where('startTime',
+              isGreaterThanOrEqualTo: from.millisecondsSinceEpoch)
+          .where('startTime', isLessThanOrEqualTo: to.millisecondsSinceEpoch)
+          .get();
+      List<Session> sessionsList = snapshot.docs
+          .map((e) => Session.fromMap(e.data() as Map<String, dynamic>))
+          .toList();
+      return right(sessionsList);
+    } on FirebaseException catch (err) {
+      throw err.message!;
+    } catch (err) {
+      return left(Failure(err.toString()));
+    }
+  }
+
   Stream<List<Session>> getTodaysSessions(String userId) {
     DateTime now = DateTime.now();
     int today = DateTime(now.year, now.month, now.day).millisecondsSinceEpoch;

@@ -14,41 +14,52 @@ class UserModel {
   final int? pages;
   final int? minutes;
   final GoalType? goalType;
+  final int? currentStreak;
+  final int? longestStreak;
 
-  UserModel(
-      {required this.uid,
-      required this.email,
-      required this.name,
-      required this.onboardingComplete,
-      this.notificationOn,
-      this.photoUrl,
-      this.notifyAt,
-      this.pages,
-      this.minutes,
-      this.goalType});
+  UserModel({
+    required this.uid,
+    required this.email,
+    required this.name,
+    required this.onboardingComplete,
+    this.notificationOn,
+    this.photoUrl,
+    this.notifyAt,
+    this.pages,
+    this.minutes,
+    this.goalType,
+    this.currentStreak,
+    this.longestStreak,
+  });
 
-  UserModel copyWith(
-      {String? uid,
-      String? email,
-      String? name,
-      TimeOfDay? notifyAt,
-      bool? notificationOn,
-      String? photoUrl,
-      int? pages,
-      int? minutes,
-      GoalType? goalType,
-      bool? onboardingComplete}) {
+  UserModel copyWith({
+    String? uid,
+    String? email,
+    String? name,
+    TimeOfDay? notifyAt,
+    bool? notificationOn,
+    String? photoUrl,
+    int? pages,
+    int? minutes,
+    GoalType? goalType,
+    bool? onboardingComplete,
+    int? currentStreak,
+    int? longestStreak,
+  }) {
     return UserModel(
-        uid: uid ?? this.uid,
-        email: email ?? this.email,
-        name: name ?? this.name,
-        notifyAt: notifyAt ?? this.notifyAt,
-        photoUrl: photoUrl ?? this.photoUrl,
-        pages: pages ?? this.pages,
-        minutes: minutes ?? this.minutes,
-        goalType: goalType ?? this.goalType,
-        onboardingComplete: onboardingComplete ?? this.onboardingComplete,
-        notificationOn: notificationOn ?? this.notificationOn);
+      uid: uid ?? this.uid,
+      email: email ?? this.email,
+      name: name ?? this.name,
+      notifyAt: notifyAt ?? this.notifyAt,
+      photoUrl: photoUrl ?? this.photoUrl,
+      pages: pages ?? this.pages,
+      minutes: minutes ?? this.minutes,
+      goalType: goalType ?? this.goalType,
+      onboardingComplete: onboardingComplete ?? this.onboardingComplete,
+      notificationOn: notificationOn ?? this.notificationOn,
+      currentStreak: currentStreak ?? this.currentStreak,
+      longestStreak: longestStreak ?? this.longestStreak,
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -62,7 +73,9 @@ class UserModel {
       'goalType': goalType,
       'pages': pages,
       'minutes': minutes,
-      'notificationOn': notificationOn
+      'notificationOn': notificationOn,
+      'currentStreak': currentStreak,
+      'longestStreak': longestStreak,
     };
   }
 
@@ -82,6 +95,10 @@ class UserModel {
       minutes: map['minutes'] != null ? map['minutes'] as int : null,
       goalType:
           map['goalType'] != null ? GoalType.values[map['goalType']] : null,
+      currentStreak:
+          map['currentStreak'] != null ? map['currentStreak'] as int : null,
+      longestStreak:
+          map['longestStreak'] != null ? map['longestStreak'] as int : null,
     );
   }
 
@@ -103,7 +120,9 @@ class UserModel {
         other.pages == pages &&
         other.minutes == minutes &&
         other.onboardingComplete == onboardingComplete &&
-        other.goalType == goalType;
+        other.goalType == goalType &&
+        other.currentStreak == currentStreak &&
+        other.longestStreak == longestStreak;
   }
 
   @override
@@ -117,6 +136,8 @@ class UserModel {
         minutes.hashCode ^
         goalType.hashCode ^
         onboardingComplete.hashCode ^
-        notificationOn.hashCode;
+        notificationOn.hashCode ^
+        currentStreak.hashCode ^
+        longestStreak.hashCode;
   }
 }
