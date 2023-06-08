@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,7 +42,12 @@ class AuthRepository {
         return left(Failure('Some error occurred'));
       }
       final userModel = UserModel(
-          uid: user.uid, name: name, email: email, onboardingComplete: false);
+          uid: user.uid,
+          name: name,
+          email: email,
+          onboardingComplete: false,
+          currentStreak: 0,
+          longestStreak: 0);
       await _users.doc(user.uid).set(userModel.toMap());
       return right(userModel);
     } on FirebaseAuthException catch (e) {
@@ -100,6 +104,8 @@ class AuthRepository {
             uid: userCredential.user!.uid,
             email: userCredential.user!.email!,
             photoUrl: userCredential.user!.photoURL ?? '',
+            currentStreak: 0,
+            longestStreak: 0,
             onboardingComplete: false);
 
         await _users.doc(userCredential.user!.uid).set(userModel.toMap());

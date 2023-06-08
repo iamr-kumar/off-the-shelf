@@ -17,29 +17,31 @@ class StreakTab extends ConsumerWidget {
         body: SafeArea(
             child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const CalendarView(),
-                    SizedBox(height: devHeight * 0.05),
-                    const Text(
-                      'Streak',
-                      style: AppStyles.headingThree,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: StreakCard(
-                          streak: user.currentStreak.toString(),
-                          title: 'Current',
-                        )),
-                        Expanded(
-                            child: StreakCard(
-                                streak: user.longestStreak.toString(),
-                                title: 'Longest'))
-                      ],
-                    )
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const CalendarView(),
+                      SizedBox(height: devHeight * 0.05),
+                      const Text(
+                        'Streak',
+                        style: AppStyles.headingThree,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: StreakCard(
+                            streak: user.currentStreak.toString(),
+                            title: 'Current',
+                          )),
+                          Expanded(
+                              child: StreakCard(
+                                  streak: user.longestStreak.toString(),
+                                  title: 'Longest'))
+                        ],
+                      )
+                    ],
+                  ),
                 ))));
   }
 }

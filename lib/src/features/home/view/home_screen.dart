@@ -59,6 +59,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: PageView(
         controller: _pageController,
         onPageChanged: onPageChanged,
+        physics: const NeverScrollableScrollPhysics(),
         children: homeScreenItems,
       ),
       bottomNavigationBar: BottomNavigationBar(
