@@ -100,6 +100,7 @@ class OnboardingController extends StateNotifier<OnboardingState> {
           minutes: minutes,
           time: time,
           pages: pages,
+          notificationOn: time != null,
           markOnboardingComplete: true);
       state.loading = false;
       res.fold((l) => showSnackBar(context, l.message), (r) async {});

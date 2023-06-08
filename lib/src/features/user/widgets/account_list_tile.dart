@@ -5,7 +5,7 @@ import 'package:off_the_shelf/src/theme/pallete.dart';
 
 class AccountListTile extends StatelessWidget {
   final String title;
-  final String? subtitle;
+  final String subtitle;
   final IconData leading;
   final VoidCallback onTap;
   const AccountListTile(
@@ -13,7 +13,7 @@ class AccountListTile extends StatelessWidget {
       required this.title,
       required this.leading,
       required this.onTap,
-      this.subtitle});
+      required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +34,14 @@ class AccountListTile extends StatelessWidget {
               color: Pallete.primaryBlue,
             ),
           ),
-          subtitle != null
-              ? Text(
-                  subtitle!,
-                  style: AppStyles.subtext.copyWith(fontSize: 14),
-                )
-              : const SizedBox()
+          Text(
+            subtitle,
+            style: AppStyles.subtext.copyWith(fontSize: 14),
+          )
         ],
       ),
       trailing: const Icon(
-        FeatherIcons.edit,
+        FeatherIcons.edit2,
         color: Pallete.primaryBlue,
       ),
       onTap: onTap,

@@ -166,7 +166,7 @@ class _ReadingSessionTabState extends ConsumerState<ReadingSessionTab> {
                             }
                           },
                           icon: const Icon(
-                            FeatherIcons.edit,
+                            FeatherIcons.edit2,
                             size: 20,
                           ))
                     ],

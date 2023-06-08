@@ -20,14 +20,16 @@ class UserRepository {
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
 
-  FutureVoid updateUserDetails(
-      {required String uid,
-      String? bookUid,
-      TimeOfDay? time,
-      int? pages,
-      int? minutes,
-      int? type,
-      bool? markOnboardingComplete = true}) async {
+  FutureVoid updateUserDetails({
+    required String uid,
+    String? bookUid,
+    TimeOfDay? time,
+    int? pages,
+    int? minutes,
+    int? type,
+    bool? notificationOn,
+    bool? markOnboardingComplete = true,
+  }) async {
     final fieldsToUpdate = <String, dynamic>{};
     if (bookUid != null) fieldsToUpdate['readingBook'] = bookUid;
     if (pages != null) fieldsToUpdate['pages'] = pages;
@@ -35,11 +37,13 @@ class UserRepository {
     if (type != null) fieldsToUpdate['goalType'] = type;
     if (time != null) {
       fieldsToUpdate['notifyAt'] = toTimestamp(time);
-      fieldsToUpdate['notificationOn'] = true;
     }
 
     if (markOnboardingComplete != null) {
       fieldsToUpdate['onboardingComplete'] = markOnboardingComplete;
+    }
+    if (notificationOn != null) {
+      fieldsToUpdate['notificationOn'] = notificationOn;
     }
 
     try {

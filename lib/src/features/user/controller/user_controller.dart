@@ -26,4 +26,18 @@ class UserController {
         (l) => showSnackBar(context, 'Some error occurred, please try again!'),
         (r) => showSnackBar(context, 'Goal updated!'));
   }
+
+  void updateNotification({
+    required BuildContext context,
+    bool? notificationOn,
+    TimeOfDay? time,
+  }) async {
+    final user = _ref.read(userProvider)!;
+    final res = await _userRepository.updateUserDetails(
+        uid: user.uid, notificationOn: notificationOn, time: time);
+
+    res.fold(
+        (l) => showSnackBar(context, 'Some error occurred, please try again!'),
+        (r) => showSnackBar(context, 'Reminder updated!'));
+  }
 }

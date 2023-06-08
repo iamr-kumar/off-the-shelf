@@ -7,6 +7,7 @@ import 'package:off_the_shelf/src/core/widgets/custom_app_bar.dart';
 import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
 import 'package:off_the_shelf/src/features/user/controller/user_controller.dart';
 import 'package:off_the_shelf/src/features/user/widgets/account_list_tile.dart';
+import 'package:off_the_shelf/src/theme/pallete.dart';
 
 class AccountScreen extends ConsumerStatefulWidget {
   static const route = '/account';
@@ -21,6 +22,8 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
   late TextEditingController _targetController;
 
   int type = 0;
+
+  TimeOfDay initialTime = const TimeOfDay(hour: 17, minute: 0);
 
   @override
   void initState() {
@@ -57,6 +60,26 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     setState(() {});
   }
 
+  void updateNotification(bool value) {
+    ref
+        .read(userControllerProvider)
+        .updateNotification(context: context, notificationOn: value);
+    setState(() {});
+  }
+
+  void handleTimeSelect(BuildContext context) async {
+    final newTime = await showTimePicker(
+      context: context,
+      initialTime: initialTime,
+    );
+    if (context.mounted) {
+      ref.read(userControllerProvider).updateNotification(
+            context: context,
+            time: newTime,
+          );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider)!;
@@ -91,7 +114,29 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                   updateTarget(_targetController.text);
                 }
               },
-            )
+            ),
+            const SizedBox(height: 20),
+            ListTile(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              tileColor: Pallete.blueGrey,
+              leading:
+                  const Icon(FeatherIcons.bell, color: Pallete.primaryBlue),
+              title: const Text(
+                'Allow Reminder',
+                style: TextStyle(color: Pallete.primaryBlue),
+              ),
+              trailing: Switch.adaptive(
+                value: ref.watch(userProvider)!.notificationOn!,
+                onChanged: (value) => updateNotification(value),
+              ),
+            ),
+            const SizedBox(height: 20),
+            AccountListTile(
+                title: 'Reminder At',
+                subtitle: '8:30 PM',
+                leading: FeatherIcons.clock,
+                onTap: () => handleTimeSelect(context)),
           ],
         ),
       )),
