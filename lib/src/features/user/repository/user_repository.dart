@@ -20,14 +20,14 @@ class UserRepository {
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
 
-  FutureVoid updateSessionDetails(
+  FutureVoid updateUserDetails(
       {required String uid,
       String? bookUid,
       TimeOfDay? time,
       int? pages,
       int? minutes,
       int? type,
-      bool? markOnboardingComplete = false}) async {
+      bool? markOnboardingComplete = true}) async {
     final fieldsToUpdate = <String, dynamic>{};
     if (bookUid != null) fieldsToUpdate['readingBook'] = bookUid;
     if (pages != null) fieldsToUpdate['pages'] = pages;

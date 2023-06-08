@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
+import 'package:off_the_shelf/src/features/user/view/account_screen.dart';
 import 'package:off_the_shelf/src/features/user/view/settings_modal.dart';
 import 'package:off_the_shelf/src/features/user/widgets/profile_list_tile.dart';
 import 'package:off_the_shelf/src/theme/pallete.dart';
+import 'package:routemaster/routemaster.dart';
 
 class ProfileTab extends ConsumerWidget {
   const ProfileTab({super.key});
@@ -67,7 +69,9 @@ class ProfileTab extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           ProfileListTile(
-              title: 'My Account', leading: FeatherIcons.user, onTap: () {}),
+              title: 'My Account',
+              leading: FeatherIcons.user,
+              onTap: () => Routemaster.of(context).push(AccountScreen.route)),
           const SizedBox(height: 16),
           ProfileListTile(
               title: 'Settings',

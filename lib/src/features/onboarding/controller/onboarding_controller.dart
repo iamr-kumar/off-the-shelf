@@ -93,7 +93,7 @@ class OnboardingController extends StateNotifier<OnboardingState> {
       state.loading = false;
       showSnackBar(context, l.message);
     }, (r) async {
-      final res = await _ref.read(userRepositoryProvider).updateSessionDetails(
+      final res = await _ref.read(userRepositoryProvider).updateUserDetails(
           uid: uid,
           bookUid: book.id,
           type: type,

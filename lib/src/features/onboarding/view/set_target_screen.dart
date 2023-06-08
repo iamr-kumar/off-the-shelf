@@ -22,7 +22,7 @@ class OnboardingSetTargetScreen extends ConsumerStatefulWidget {
 
 class _OnboardingSetTargetScreenState
     extends ConsumerState<OnboardingSetTargetScreen> {
-  int type = 1;
+  int type = 0;
 
   final TextEditingController _targetController = TextEditingController();
 
@@ -47,7 +47,7 @@ class _OnboardingSetTargetScreenState
     }
 
     void updateTarget(String text) {
-      if (type == 1) {
+      if (type == 0) {
         ref
             .read(onboardingControllerProvider.notifier)
             .setPages(int.parse(text));

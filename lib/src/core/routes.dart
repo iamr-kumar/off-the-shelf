@@ -1,6 +1,7 @@
 // Guest Routes
 import 'package:flutter/material.dart';
 import 'package:off_the_shelf/src/features/library/view/shelf_screen.dart';
+import 'package:off_the_shelf/src/features/user/view/account_screen.dart';
 import 'package:off_the_shelf/src/features/user/view/landing_screen.dart';
 import 'package:off_the_shelf/src/features/user/view/login_screen.dart';
 import 'package:off_the_shelf/src/features/user/view/singup_screen.dart';
@@ -23,6 +24,7 @@ final authenticatedRoutes =
     RouteMap(onUnknownRoute: (_) => const Redirect(HomeScreen.route), routes: {
   HomeScreen.route: (_) => const MaterialPage(child: HomeScreen()),
   ShelfScreen.route: (_) => const MaterialPage(child: ShelfScreen()),
+  AccountScreen.route: (_) => const MaterialPage(child: AccountScreen()),
 });
 
 final onboardingRoutes =
