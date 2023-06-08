@@ -59,6 +59,6 @@ class Session {
 
   @override
   String toString() {
-    return 'ReadingLog(bookId: $bookId, startTime: $startTime, endTime: $endTime, pages: $pages, minutes: $minutes)';
+    return 'Session(bookId: $bookId, startTime: $startTime, endTime: $endTime, pages: $pages, minutes: $minutes)';
   }
 }

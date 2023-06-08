@@ -1,26 +1,53 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:off_the_shelf/src/features/session/repository/session_repository.dart';
+import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
 import 'package:off_the_shelf/src/models/session.model.dart';
 
 final streakStateProvider =
-    StateNotifierProvider<StreakController, StreakState>((ref) =>
-        StreakController(
-            sessionRepository: ref.read(sessionRepositoryProvider)));
+    StateNotifierProvider<StreakController, StreakState>(
+        (ref) => StreakController(
+            sessionRepository: ref.read(
+              sessionRepositoryProvider,
+            ),
+            ref: ref));
+
+class DayReadStatus {
+  int pages;
+  int minutes;
+
+  DayReadStatus(this.pages, this.minutes);
+
+  DayReadStatus copyWith({
+    int? pages,
+    int? minutes,
+  }) {
+    return DayReadStatus(
+      pages ?? this.pages,
+      minutes ?? this.minutes,
+    );
+  }
+
+  void updateReadStatus(int pages, int minutes) {
+    this.pages += pages;
+    this.minutes += minutes;
+  }
+}
 
 class StreakState {
-  final List<Session> sessions;
+  final Map<String, DayReadStatus> sessionsMap;
   final bool loading;
   final String? error;
 
-  StreakState({this.sessions = const [], this.loading = false, this.error});
+  StreakState({this.sessionsMap = const {}, this.loading = false, this.error});
 
   StreakState copyWith({
-    List<Session>? sessions,
+    Map<String, DayReadStatus>? sessionsMap,
     bool? loading,
     String? error,
   }) {
     return StreakState(
-      sessions: sessions ?? this.sessions,
+      sessionsMap: sessionsMap ?? this.sessionsMap,
       loading: loading ?? this.loading,
       error: error ?? this.error,
     );
@@ -29,10 +56,13 @@ class StreakState {
 
 class StreakController extends StateNotifier<StreakState> {
   final SessionRepository _sessionRepository;
+  final Ref _ref;
 
   StreakController({
     required SessionRepository sessionRepository,
+    required Ref ref,
   })  : _sessionRepository = sessionRepository,
+        _ref = ref,
         super(StreakState()) {
     final now = DateTime.now();
     final monthStartDay = DateTime(now.year, now.month, 1);
@@ -40,20 +70,36 @@ class StreakController extends StateNotifier<StreakState> {
   }
 
   void getSessionsByMonth(DateTime monthStartDay) async {
+    final user = _ref.read(userProvider);
     final DateTime nextMonthStartDate =
-        DateTime(monthStartDay.year, monthStartDay.month + 1, 1);
+        DateTime(monthStartDay.year, monthStartDay.month + 1, 1, 23, 59, 59);
     final DateTime endOfMonth =
         nextMonthStartDate.subtract(const Duration(days: 1));
+
     state = state.copyWith(loading: true);
     final sessionRes = await _sessionRepository.getSessionsInDateRange(
-        monthStartDay, endOfMonth);
+        user!.uid, monthStartDay, endOfMonth);
 
     state = state.copyWith(loading: false);
 
     sessionRes.fold((l) {
       state = state.copyWith(error: l.toString());
     }, (sessions) {
-      state = state.copyWith(sessions: sessions);
+      final sessionsMap = createSessionsMap(sessions);
+      state = state.copyWith(sessionsMap: sessionsMap);
     });
+  }
+
+  Map<String, DayReadStatus> createSessionsMap(List<Session> sessions) {
+    final Map<String, DayReadStatus> sessionsMap = {};
+    for (var session in sessions) {
+      final dateText = DateFormat('dd MM yy').format(session.startTime);
+      if (sessionsMap[dateText] != null) {
+        sessionsMap[dateText]!.updateReadStatus(session.pages, session.minutes);
+      } else {
+        sessionsMap[dateText] = DayReadStatus(session.pages, session.minutes);
+      }
+    }
+    return sessionsMap;
   }
 }

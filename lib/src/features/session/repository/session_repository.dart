@@ -55,9 +55,9 @@ class SessionRepository {
   }
 
   FutureEither<List<Session>> getSessionsInDateRange(
-      DateTime from, DateTime to) async {
+      String userId, DateTime from, DateTime to) async {
     CollectionReference sessions =
-        _users.doc('userId').collection(FirebaseConstants.sessionsCollection);
+        _users.doc(userId).collection(FirebaseConstants.sessionsCollection);
     try {
       QuerySnapshot snapshot = await sessions
           .where('startTime',
