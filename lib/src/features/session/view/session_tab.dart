@@ -91,6 +91,7 @@ class _ReadingSessionTabState extends ConsumerState<ReadingSessionTab> {
                 book: bookToRead,
                 startTime: startTime,
                 endTime: endTime,
+                parentContext: context,
               ),
             );
           });

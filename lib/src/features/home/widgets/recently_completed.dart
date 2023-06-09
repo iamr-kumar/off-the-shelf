@@ -32,14 +32,12 @@ class RecentlyCompleted extends ConsumerWidget {
                                 style: AppStyles.bodyText),
                           ],
                         )
-                      : Expanded(
-                          child: SizedBox(
-                              height: devHeight * 0.3,
-                              child: BookTile(
-                                book: data[0],
-                                height: devHeight,
-                              )),
-                        );
+                      : SizedBox(
+                          height: null,
+                          child: BookTile(
+                            book: data[0],
+                            height: devHeight,
+                          ));
                 },
                 loading: () => const Loader(),
                 error: (error, stack) {

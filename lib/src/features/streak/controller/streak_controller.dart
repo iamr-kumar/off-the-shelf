@@ -109,21 +109,21 @@ class StreakController extends StateNotifier<StreakState> {
     }, (sessions) {
       if (sessions.isEmpty) {
         _ref.read(userControllerProvider).resetStreak();
-      }
+      } else {}
     });
   }
 
-  void updateStreak() async {
+  void updateStreak(DateTime startTime) async {
     final today = DateTime.now();
     final todayStart =
         DateTime(today.year, today.month, today.day, 0, 0, 0, 0, 0);
-    final todayEnd =
-        DateTime(today.year, today.month, today.day, 23, 59, 59, 0, 0);
+    final endCheck = startTime.subtract(const Duration(minutes: 1));
+    ;
 
     final user = _ref.read(userProvider)!;
 
     final sessionRes = await _sessionRepository.getSessionsInDateRange(
-        _ref.read(userProvider)!.uid, todayStart, todayEnd);
+        _ref.read(userProvider)!.uid, todayStart, endCheck);
 
     sessionRes.fold((l) {
       state = state.copyWith(error: l.toString());

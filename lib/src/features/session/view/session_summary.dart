@@ -12,6 +12,7 @@ class SessionSummary extends ConsumerStatefulWidget {
   final Book book;
   final DateTime startTime;
   final DateTime endTime;
+  final BuildContext parentContext;
 
   const SessionSummary(
       {super.key,
@@ -19,7 +20,8 @@ class SessionSummary extends ConsumerStatefulWidget {
       required this.seconds,
       required this.book,
       required this.startTime,
-      required this.endTime});
+      required this.endTime,
+      required this.parentContext});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SessionSummaryState();
@@ -48,7 +50,7 @@ class _SessionSummaryState extends ConsumerState<SessionSummary> {
         minutes: widget.minutes,
         startTime: widget.startTime,
         endTime: widget.endTime,
-        context: context);
+        context: widget.parentContext);
 
     Navigator.of(context).pop();
   }

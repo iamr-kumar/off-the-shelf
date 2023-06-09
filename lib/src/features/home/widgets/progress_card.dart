@@ -32,7 +32,7 @@ class ProgressCard extends ConsumerWidget {
                 pages += log.pages;
               }
               final goal = user.goalType! == GoalType.minutes ? minutes : pages;
-              final percentComplete = goal / readingGoal!;
+              final percentComplete = (goal / readingGoal!) * 100;
               return Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -66,7 +66,7 @@ class ProgressCard extends ConsumerWidget {
                         ),
                         Center(
                             child: Text(
-                                '${percentComplete.toStringAsFixed(1)}%',
+                                '${percentComplete.toStringAsFixed(0)}%',
                                 style: AppStyles.bodyText
                                     .copyWith(color: Pallete.white))),
                       ])),

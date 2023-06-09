@@ -88,6 +88,10 @@ class LibraryController {
     bookRes.fold((l) => null, (r) => {book = r});
 
     book = book.copyWith(status: status, updatedAt: DateTime.now());
+    if (status == BookStatus.finished) {
+      book =
+          book.copyWith(completedAt: DateTime.now(), progress: book.pageCount);
+    }
 
     final updatedBook =
         await _ref.read(libraryRepositoryProvider).updateBook(book);

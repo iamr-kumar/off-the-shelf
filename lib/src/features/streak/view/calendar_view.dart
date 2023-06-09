@@ -76,8 +76,10 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
     final error = streakState.error;
     final sessionsMap = streakState.sessionsMap;
 
+    final devHeight = MediaQuery.of(context).size.height;
+
     if (loading) {
-      return const Loader();
+      return SizedBox(height: devHeight * 0.45, child: const Loader());
     }
 
     if (error != null) {

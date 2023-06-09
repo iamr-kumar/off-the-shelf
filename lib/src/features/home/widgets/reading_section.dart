@@ -15,7 +15,7 @@ class ReadingSection extends ConsumerWidget {
     final devHeight = MediaQuery.of(context).size.height;
 
     return SizedBox(
-        height: devHeight * 0.35,
+        height: null,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -33,19 +33,30 @@ class ReadingSection extends ConsumerWidget {
                                 style: AppStyles.bodyText),
                           ],
                         )
-                      : Expanded(
-                          child: SizedBox(
-                            height: devHeight * 0.3,
-                            child: ListView.builder(
-                              scrollDirection: Axis.vertical,
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                return BookTile(
-                                  book: data[index],
-                                  height: devHeight,
-                                );
-                              },
-                            ),
+                      : SizedBox(
+                          height: data.length == 1
+                              ? devHeight * 0.2
+                              : devHeight * 0.4,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: data.length == 1
+                                      ? devHeight * 0.2
+                                      : devHeight * 0.4,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: data.length,
+                                    itemBuilder: (context, index) {
+                                      return BookTile(
+                                        book: data[index],
+                                        height: devHeight,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         );
                 },
