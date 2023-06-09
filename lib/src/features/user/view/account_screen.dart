@@ -7,6 +7,7 @@ import 'package:off_the_shelf/src/core/widgets/custom_app_bar.dart';
 import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
 import 'package:off_the_shelf/src/features/user/controller/user_controller.dart';
 import 'package:off_the_shelf/src/features/user/widgets/account_list_tile.dart';
+import 'package:off_the_shelf/src/providers/notification_service_provider.dart';
 import 'package:off_the_shelf/src/theme/pallete.dart';
 
 class AccountScreen extends ConsumerStatefulWidget {
@@ -64,6 +65,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     ref
         .read(userControllerProvider)
         .updateNotification(context: context, notificationOn: value);
+    ref.read(notificationServiceProvider).cancelAllReminders();
     setState(() {});
   }
 
@@ -72,11 +74,17 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
       context: context,
       initialTime: initialTime,
     );
-    if (context.mounted) {
+    if (context.mounted && newTime != null) {
       ref.read(userControllerProvider).updateNotification(
             context: context,
             time: newTime,
           );
+
+      ref
+          .read(notificationServiceProvider)
+          .cancelAndRescheduleReminder(newTime);
+
+      setState(() {});
     }
   }
 
@@ -134,7 +142,9 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
             const SizedBox(height: 20),
             AccountListTile(
                 title: 'Reminder At',
-                subtitle: '8:30 PM',
+                subtitle: user.notifyAt == null
+                    ? 'Not set'
+                    : user.notifyAt!.format(context),
                 leading: FeatherIcons.clock,
                 onTap: () => handleTimeSelect(context)),
           ],

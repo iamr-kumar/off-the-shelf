@@ -16,7 +16,7 @@ String getStatusMessage(
     GoalType type, int goalPages, int goalMinutes, int pages, int minutes) {
   String message = "You have read";
   if (type == GoalType.minutes) {
-    message += " $minutes/$goalMinutes  minutes";
+    message += " $minutes/$goalMinutes minutes";
   } else {
     message += " $pages/$goalPages pages";
   }

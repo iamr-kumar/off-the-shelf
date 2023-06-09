@@ -84,7 +84,7 @@ class _ReadingSessionTabState extends ConsumerState<ReadingSessionTab> {
           isScrollControlled: true,
           builder: (ctx) {
             return SizedBox(
-              height: deviceHeight * 0.5,
+              height: deviceHeight * 0.9,
               child: SessionSummary(
                 minutes: minutes,
                 seconds: seconds,

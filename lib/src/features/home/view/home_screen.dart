@@ -6,7 +6,9 @@ import 'package:off_the_shelf/src/features/library/view/library_tab.dart';
 import 'package:off_the_shelf/src/features/session/view/session_tab.dart';
 import 'package:off_the_shelf/src/features/streak/controller/streak_controller.dart';
 import 'package:off_the_shelf/src/features/streak/view/streak_tab.dart';
+import 'package:off_the_shelf/src/features/user/controller/auth_controller.dart';
 import 'package:off_the_shelf/src/features/user/view/profile_tab.dart';
+import 'package:off_the_shelf/src/providers/notification_service_provider.dart';
 
 import 'package:off_the_shelf/src/theme/pallete.dart';
 
@@ -27,6 +29,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.initState();
     _pageController = PageController();
     ref.read(streakStateProvider.notifier).checkAndResetCurrentStreak();
+    final user = ref.read(userProvider)!;
+    if (user.notificationOn! && user.notifyAt != null) {
+      ref.read(notificationServiceProvider).scheduleReminder(user.notifyAt!);
+    }
   }
 
   @override
