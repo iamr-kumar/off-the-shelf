@@ -101,6 +101,7 @@ class LibraryRepository {
 
   Stream<List<Book>> getBooksReadFromDate(DateTime date) {
     return _library
+        .where('status', isEqualTo: BookStatus.finished.index)
         .where('completedAt',
             isGreaterThanOrEqualTo: date.millisecondsSinceEpoch)
         .orderBy("completedAt", descending: true)

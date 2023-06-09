@@ -93,6 +93,11 @@ class LibraryController {
           book.copyWith(completedAt: DateTime.now(), progress: book.pageCount);
     }
 
+    if (status == BookStatus.reading || status == BookStatus.toRead) {
+      book = book.copyWith(completedAt: null);
+      print(book);
+    }
+
     final updatedBook =
         await _ref.read(libraryRepositoryProvider).updateBook(book);
 
