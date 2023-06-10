@@ -99,7 +99,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            const CustomAppBar(title: 'My Account'),
+            const CustomAppBar(title: 'Settings'),
             const SizedBox(height: 20),
             AccountListTile(
               title: 'Current Goal',

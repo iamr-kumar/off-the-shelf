@@ -33,7 +33,7 @@ class ProfileTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(userProvider)!;
-    final devHeight = MediaQuery.of(context).size.height;
+    // final devHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
         body: SafeArea(
@@ -69,14 +69,14 @@ class ProfileTab extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
           ProfileListTile(
-              title: 'My Account',
+              title: 'Settings',
               leading: FeatherIcons.user,
               onTap: () => Routemaster.of(context).push(AccountScreen.route)),
           const SizedBox(height: 16),
-          ProfileListTile(
-              title: 'Settings',
-              leading: FeatherIcons.settings,
-              onTap: () => showSettingsModal(context, devHeight)),
+          // ProfileListTile(
+          //     title: 'Settings',
+          //     leading: FeatherIcons.settings,
+          //     onTap: () => showSettingsModal(context, devHeight)),
           const SizedBox(height: 16),
           ProfileListTile(
               title: 'Log Out',
