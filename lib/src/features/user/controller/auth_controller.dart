@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:off_the_shelf/src/core/constants/local_constants.dart';
 import 'package:off_the_shelf/src/core/utils/snackbar.dart';
 import 'package:off_the_shelf/src/features/user/repository/auth_repository.dart';
 import 'package:off_the_shelf/src/models/user.model.dart';

@@ -116,7 +116,7 @@ class AuthRepository {
     } on FirebaseException catch (err) {
       throw err.message!;
     } catch (err) {
-      return left(Failure(err.toString()));
+      return left(Failure('Some error occurred. Please try again'));
     }
   }
 
