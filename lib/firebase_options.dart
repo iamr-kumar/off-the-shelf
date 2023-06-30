@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAX0ZQqO1SjVaR0hleEaIK_YfQayks1gyg',
-    appId: '1:349450474975:android:732561aa836dfcd213206a',
+    appId: '1:349450474975:android:04393fb8c46e820013206a',
     messagingSenderId: '349450474975',
     projectId: 'off-the-shelf-d5433',
     storageBucket: 'off-the-shelf-d5433.appspot.com',
@@ -59,10 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDxFpMn47-EGRxpqhRq9gjE7CiyvxGApTY',
-    appId: '1:349450474975:ios:77972e9a19e5994613206a',
+    appId: '1:349450474975:ios:11955f3f53fd1ebd13206a',
     messagingSenderId: '349450474975',
     projectId: 'off-the-shelf-d5433',
     storageBucket: 'off-the-shelf-d5433.appspot.com',
-    iosBundleId: 'com.example.offTheShelf',
+    androidClientId: '349450474975-9doijpe4qf2i5oa85mlhf7sus4boo3c4.apps.googleusercontent.com',
+    iosClientId: '349450474975-hb6f9k472ts95fghqrtmp2rhu9scg7d0.apps.googleusercontent.com',
+    iosBundleId: 'com.devritik.offTheShelf',
   );
 }

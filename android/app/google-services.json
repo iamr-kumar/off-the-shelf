@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:349450474975:android:732561aa836dfcd213206a",
+        "mobilesdk_app_id": "1:349450474975:android:04393fb8c46e820013206a",
         "android_client_info": {
-          "package_name": "com.example.off_the_shelf"
+          "package_name": "com.devritik.offTheShelf"
         }
       },
       "oauth_client": [
         {
-          "client_id": "349450474975-sgp9of6qk3aof9pojbjt101rev477n0s.apps.googleusercontent.com",
+          "client_id": "349450474975-ftkl6ka0ep3pkh5a8e9eb5q7823n68g3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.off_the_shelf",
+            "package_name": "com.devritik.offTheShelf",
             "certificate_hash": "b91c38b33e6d3e2e738a78b808970737ccd042cf"
           }
         },

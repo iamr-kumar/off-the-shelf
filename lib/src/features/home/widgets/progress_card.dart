@@ -58,7 +58,7 @@ class ProgressCard extends ConsumerWidget {
                       width: 100,
                       child: Stack(fit: StackFit.expand, children: [
                         CircularProgressIndicator(
-                          value: percentComplete,
+                          value: percentComplete / 100,
                           valueColor: const AlwaysStoppedAnimation(
                               Pallete.textGreyLight),
                           strokeWidth: 12,
